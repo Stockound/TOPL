@@ -28,8 +28,10 @@ def same(e1, e2):
             return e1.value == e2.value
         if type(e1) is NotExpr:
             return same(e1.expr, e2.expr)
-        if isinstance(e1, BinaryExpr): 
+        if type(e1) is AndExpr:
             return same(e1.rhs, e2.rhs) and same(e1.lhs, e2.lhs)
+        if type(e1) is OrExpr:
+            return same(e1.rhs, e2.rhs) or same(e1.lhs, e2.lhs)
     else:
         return False
 
