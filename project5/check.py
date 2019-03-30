@@ -176,7 +176,7 @@ def check_call(e):
         raise Exception("application to non-lambda")
     if t1.parms is not t2:
         raise Exception("invalid operand to lambda")
-    return t2 #should this have its own type?
+    return t2 #should this have its own type? Am i supposed to be doing this
 
 #collection? check
 def check_tuple(e):
@@ -186,11 +186,7 @@ def check_tuple(e):
     return tupleType(tlist)
 
 def check_record(e):
-    tlist = list()
-    for var in e.vars:
-        for key, value in var.items():
-            tlist.append({key, check(value)})
-    return recordType(tlist)
+    return recordType({key:check(value) for key, value in e.vars.items()})
 
 #helpers I stole
 def is_bool(x):

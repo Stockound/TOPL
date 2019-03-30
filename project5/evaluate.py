@@ -69,7 +69,7 @@ def eval_tuple(e, store):
     return list(evaluate(var) for var in e.vars)
 
 def eval_record(e, store):#i hope this syntax works because it's really cool
-    return list({key, evaluate(value)} for key, value in (var.items() for var in e.vars))
+    return {key:evaluate(value) for key, value in e.vars.items()}
 
 def evaluate(e, store = {}):
     if type(e) is BoolExpr:
