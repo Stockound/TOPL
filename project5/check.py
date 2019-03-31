@@ -62,6 +62,8 @@ def do_check(e):
         return check_tuple(e)
     if type(e) is RecordExpr:
         return check_record(e)
+    if type(e) is VariantExpr:
+        return check_variant(e)
     assert false
 
 #type checks
@@ -183,10 +185,13 @@ def check_tuple(e):
     tlist = list()
     for var in e.vars:
         tlist.append(check(var))
-    return tupleType(tlist)
+    return TupleType(tlist)
 
 def check_record(e):
-    return recordType({key:check(value) for key, value in e.vars.items()})
+    return RecordType({key:check(value) for key, value in e.vars.items()})
+
+def check_variant(e):#should i make sure that lhs and rhs are not the same type?
+    return VariantType(check(e.lhs), check(e.rhs))
 
 #helpers I stole
 def is_bool(x):

@@ -27,13 +27,18 @@ class FnType(Type):
         self.ret = ret
 
 #records and tuples are 2 different types as they prob shouldnt be considered equavalent
-class tupleType(Type):
+class TupleType(Type):
     def __init__(self, vars):
         self.vars = vars
 
-class recordType(Type):
+class RecordType(Type):
     def __init__(self, vars):
         self.vars = vars
+
+class VariantType(Type):
+    def __init__(self, t1, t2):
+        self.lhs = t1
+        self.rhs = t2
 
 class Expr:
     pass
@@ -149,12 +154,7 @@ class NegExpr(NumExpr):
         return "-" + str(self.op1)
 
 #tuples, records, and variants
-#didnt know if you wanted them to accept a list of arguements or the arguements 
-#as seperate parameters so heres both
-#TODO: eval for tuple and Record
 class TupleExpr(Expr):
-#    def __init__(self, *args):
-#        self.vars = list(args)
     def __init__(self, args):
         self.vars = args
     def __str__(self):
@@ -162,18 +162,20 @@ class TupleExpr(Expr):
         return f"({varString})"
 
 class RecordExpr(Expr):
-#    def __init__(self, **kwargs):
-#        self.vars = list(kwargs)
     def __init__(self, args):
         self.vars = args
     def __str__(self):
-        varString = ",".join(str("{"+ str(key) + "=" + str(value) +"}") for key, value in (v.items() for v in self.vars))
+        varString = ",".join(str("{"+ str(key) + "=" + str(value) +"}") for key, value in self.vars.items())
         return f"({varString})"
 
-#TODO: figure out how i wanna make variants work
+#this is definitely wrong
 class VariantExpr(Expr):
-    def __init__(self):
-        pass
+    def __init__(self, t, e1, e2):
+        self.tag = t
+        self.lhs = e1
+        self.rhs = e2
+    def __str__ (self):
+        return f"({str(self.tag)} {{{str(self.lhs)}, {str(self.rhs)}}})"
 
 #Lambda Calculus Support
 class IdExpr(Expr):

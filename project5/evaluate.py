@@ -66,10 +66,16 @@ def eval_call(e, store):
 #no idea what tuples and records evaluate to other than a list of evaluated 
 #stuff so thats what they are
 def eval_tuple(e, store):
-    return list(evaluate(var) for var in e.vars)
+    return list(evaluate(var, store) for var in e.vars)
 
 def eval_record(e, store):#i hope this syntax works because it's really cool
-    return {key:evaluate(value) for key, value in e.vars.items()}
+    return {key: (evaluate(value, store)) for key, value in e.vars.items()}
+
+def eval_variant(e, store):
+    if(e.tag):
+        return evaluate(e.lhs, store)
+    else:
+        return evaluate(e.rhs, store)
 
 def evaluate(e, store = {}):
     if type(e) is BoolExpr:
@@ -104,3 +110,5 @@ def evaluate(e, store = {}):
     
     if type(e) is RecordExpr:
         return eval_record(e, store)
+    if type(e) is VariantExpr:
+        return eval_variant(e, store)
