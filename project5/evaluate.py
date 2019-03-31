@@ -72,7 +72,7 @@ def eval_record(e, store):#i hope this syntax works because it's really cool
     return {key: (evaluate(value, store)) for key, value in e.vars.items()}
 
 def eval_variant(e, store):
-    if(e.tag):
+    if(evaluate(e.tag, store)):
         return evaluate(e.lhs, store)
     else:
         return evaluate(e.rhs, store)

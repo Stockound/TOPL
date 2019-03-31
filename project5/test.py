@@ -1,22 +1,19 @@
 from el import *
 from operation import *
 from evaluate import *
-import copy
 
-clone = copy.deepcopy
-
-# impl = \(p, q).(not p or q)
-impl = \
-  LambdaExpr([VarDecl("p", boolType), VarDecl("q", boolType)], OrExpr(NotExpr("p"), "q"))
+listTest = list()
+listTest.append(BoolExpr(True))
+listTest.append(BoolExpr(False))
+dictTest = {"first":BoolExpr(False), "second":BoolExpr(False)}
 
 table = [
-  resolve(CallExpr(clone(impl), [True, True])),
-  resolve(CallExpr(clone(impl), [True, False])),
-  resolve(CallExpr(clone(impl), [False, True])),
-  resolve(CallExpr(clone(impl), [False, False]))
+  VariantExpr(BoolExpr(True), AndExpr(BoolExpr(True),BoolExpr(False)), OrExpr(BoolExpr(True),BoolExpr(False))),
+  VariantExpr(BoolExpr(False), AndExpr(BoolExpr(True),BoolExpr(False)), OrExpr(BoolExpr(True),BoolExpr(False))),
+  TupleExpr(listTest),
+  RecordExpr(dictTest)
 ]
 
 for e in table:
   print(e)
   print(evaluate(e))
-  reduce(e)
