@@ -83,7 +83,7 @@ def eval_variant(e, store):
 #variant if you wanted any amount of values
 def eval_variant(e, store):
     if(e.tag in e.vars.keys()):
-        return evaluate(e.vars.get(e.tag))
+        return evaluate(e.vars.get(e.tag), store)
     raise Exception("No such tag " + str(e.tag) + " found in variant")
 
 def evaluate(e, store = {}):
