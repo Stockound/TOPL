@@ -190,8 +190,15 @@ def check_tuple(e):
 def check_record(e):
     return RecordType({key:check(value) for key, value in e.vars.items()})
 
+
+#variants if you wanted them to have 2 values
+'''
 def check_variant(e):#should i make sure that lhs and rhs are not the same type?
     return VariantType(check(e.lhs), check(e.rhs))
+'''
+#variant if you wanted any amount of values
+def check_variant(e):#should i make sure that no values are not the same type?
+    return VariantType({key:check(value) for key, value in e.vars.items()})
 
 #helpers I stole
 def is_bool(x):

@@ -8,8 +8,8 @@ listTest.append(BoolExpr(False))
 dictTest = {"first":BoolExpr(False), "second":BoolExpr(False)}
 
 table = [
-  VariantExpr(BoolExpr(True), AndExpr(BoolExpr(True),BoolExpr(False)), OrExpr(BoolExpr(True),BoolExpr(False))),
-  VariantExpr(BoolExpr(False), AndExpr(BoolExpr(True),BoolExpr(False)), OrExpr(BoolExpr(True),BoolExpr(False))),
+  VariantExpr("something", {"not something":BoolExpr(True), "something":BoolExpr(False), "something else":BoolExpr(True)}),
+  VariantExpr("something", {"not something":BoolExpr(False), "something":BoolExpr(True), "something else":BoolExpr(False)}),
   TupleExpr(listTest),
   RecordExpr(dictTest)
 ]

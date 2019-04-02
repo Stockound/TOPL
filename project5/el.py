@@ -35,10 +35,17 @@ class RecordType(Type):
     def __init__(self, vars):
         self.vars = vars
 
+#variants if you wanted them to have 2 values
+'''
 class VariantType(Type):
     def __init__(self, t1, t2):
         self.lhs = t1
         self.rhs = t2
+'''
+#variant if you wanted any amount of values
+class VariantType(Type):
+    def __init__(self, vars):
+        self.vars = vars
 
 class Expr:
     pass
@@ -165,10 +172,11 @@ class RecordExpr(Expr):
     def __init__(self, args):
         self.vars = args
     def __str__(self):
-        varString = ",".join(str("{"+ str(key) + "=" + str(value) +"}") for key, value in self.vars.items())
+        varString = ",".join(str("("+ str(key) + "=" + str(value) +")") for key, value in self.vars.items())
         return f"({varString})"
 
-#this is definitely wrong
+#variants if you wanted them to have 2 values
+'''
 class VariantExpr(Expr):
     def __init__(self, t, e1, e2):
         self.tag = t
@@ -176,6 +184,15 @@ class VariantExpr(Expr):
         self.rhs = e2
     def __str__ (self):
         return f"({str(self.tag)} {{{str(self.lhs)}, {str(self.rhs)}}})"
+'''
+#variant if you wanted any amount of values
+class VariantExpr(Expr):
+    def __init__(self, t, args):
+        self.tag = t
+        self.vars = args
+    def __str__ (self):
+        varString = ",".join(str("("+ str(key) + "=" + str(value) +")") for key, value in self.vars.items())
+        return f"({self.tag}, {{{varString}}})"
 
 #Lambda Calculus Support
 class IdExpr(Expr):

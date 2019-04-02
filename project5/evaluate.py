@@ -71,11 +71,20 @@ def eval_tuple(e, store):
 def eval_record(e, store):#i hope this syntax works because it's really cool
     return {key: (evaluate(value, store)) for key, value in e.vars.items()}
 
+#not sure how variants are meant to behave
+#variants if you wanted them to have 2 values
+'''
 def eval_variant(e, store):
     if(evaluate(e.tag, store)):
         return evaluate(e.lhs, store)
     else:
         return evaluate(e.rhs, store)
+'''
+#variant if you wanted any amount of values
+def eval_variant(e, store):
+    if(e.tag in e.vars.keys()):
+        return evaluate(e.vars.get(e.tag))
+    raise Exception("No such tag " + str(e.tag) + " found in variant")
 
 def evaluate(e, store = {}):
     if type(e) is BoolExpr:
